@@ -4,7 +4,7 @@
 #include <cxxabi.h>
 
 #define __DEBUG_PRT__
-// #define __DEBGU_DLADDR__
+#define __DEBGU_DLADDR__
 
 inline const char *get_funcname(const char *src) {
         int status = 99;
@@ -16,7 +16,7 @@ extern "C" void __attribute__((constructor)) traceBegin(void) {}
 
 extern "C" void __attribute__((destructor)) traceEnd(void) {}
 
-extern "C" void __cyg_profile_func_enter(void *func, void *caller) {
+extern "C" void __attribute__((no_instrument_function)) __cyg_profile_func_enter(void *func, void *caller) {
     #ifdef __DEBUG_PRT__
     fprintf(stdout, "##entr %p %p\n", func, caller);
     #endif
@@ -29,7 +29,7 @@ extern "C" void __cyg_profile_func_enter(void *func, void *caller) {
     #endif
 }
 
-extern "C" void __cyg_profile_func_exit(void *func, void *caller) {
+extern "C" void __attribute__((no_instrument_function)) __cyg_profile_func_exit(void *func, void *caller) {
     #ifdef __DEBUG_PRT__
     fprintf(stdout, "##exit %p %p\n", func, caller);
     #endif
